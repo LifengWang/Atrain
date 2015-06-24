@@ -2,9 +2,7 @@ __author__ = 'root'
 import sys, urllib, urllib2, json
 
 
-
-
-url = 'http://apis.baidu.com/apistore/currencyservice/currency?fromCurrency=CNY&toCurrency=USD&amount=2'
+url = 'http://apis.baidu.com/apistore/currencyservice/currency?fromCurrency=USD&toCurrency=CNY&amount=1'
 
 req = urllib2.Request(url)
 

@@ -11,15 +11,16 @@ url = 'http://download.finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s='+fromC
 req = urllib2.Request(url)
 req.add_header('Content-Type', "application/x-www-form-urlencoded")
 resp = urllib2.urlopen(req)
-content = resp.read()
+result = resp.read()
+content = result.split(",")
 print content
 
 conn = MySQLdb.connect(host='localhost', user='root', passwd='123456')
 cursor = conn.cursor()
+conn.select_db('currencies')
+values = [4, content[0].strip('\"'), content[1].strip('\"'), content[2].strip('\"'), content[3].split('\n')[0].strip('\"')]
 
-value = [1, content]
-
-print value
-cursor.execute("insert into test values(%s,%s,%s,%s,%s)", value)
-
+print values
+cursor.execute("insert into quote values(%s,%s,%s,%s,%s)", values)
+conn.commit()
 cursor.close()
