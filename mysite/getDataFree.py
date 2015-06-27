@@ -1,5 +1,5 @@
 import urllib2
-import MySQLdb
+# import MySQLdb
 
 fromCurrency = 'USD'
 toCurrency = 'CNY'

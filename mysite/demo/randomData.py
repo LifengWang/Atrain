@@ -98,21 +98,32 @@ def getResult():
 	watch_list = getDatas(_t, _t+init_length)
 	acc = init_length
 	
-	TURN_ON_FLAG = 0
+	BUY_ON_FLAG = 0
+	SELL_ON_FALG = 0
+	last_ema = _getEMA(watch_list,5)
 	for idx in xrange(acc,10000):
 		raw_data = getOneData(_t + idx)
 
 		watch_list = watch_list[1:len(watch_list)]
 		watch_list.append(raw_data)
+		
 		EMA5 = _getEMA(watch_list,5)
+
 		EMA13 = _getEMA(watch_list,13)
 		EMA20 = _getEMA(watch_list,20)
-		if EMA5 > EMA13 and EMA5 > EMA20 and TURN_ON_FLAG==0:
-			TURN_ON_FLAG = 1
+		if EMA5 > EMA13 and EMA5 > EMA20 and \
+		 BUY_ON_FLAG==0:
+			BUY_ON_FLAG = 1
 			print 'BEGIN, BUY ACTION ON !', ts2dstr(raw_data[4])
-		elif EMA5 <EMA13 and EMA5 < EMA20 and TURN_ON_FLAG ==1:
-			TURN_ON_FLAG = 0
-			print 'END  , BUY SHUT DOWN !', ts2dstr(raw_data[4])
+		elif BUY_ON_FLAG == 1 and (EMA5 < EMA13 or last_ema - EMA5 > 0.02):
+		 	BUY_ON_FLAG = 0
+		 	print 'END  , BUY ACTION OFF!', ts2dstr(raw_data[4])
+		elif SELL_ON_FALG == 0 and (EMA5 <EMA13 and EMA5 < EMA20):
+			SELL_ON_FALG = 1
+			print 'BEGIN, SELL ACTION ON!', ts2dstr(raw_data[4])
+		elif SELL_ON_FALG == 1 and (EMA5 > EMA13 or EMA5 - last_ema > 0.02) :
+			SELL_ON_FALG = 0
+			print 'END  , SELL ACTION OFF!', ts2dstr(raw_data[4])
 
 def ts2dstr(ts):
 	da = datetime.datetime.fromtimestamp(ts)
