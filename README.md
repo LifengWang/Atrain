@@ -206,6 +206,7 @@ SSM supports two running modes, standalone service and SSM service with multiple
 
 Run SSM
 ---------------------------------------------------------------------------------
+Enter into ${SMART_HOME} directory for running SSM.
 
 * **Start SSM server**
 
@@ -243,7 +244,7 @@ Run SSM
 
    The script `bin/stop-ssm.sh` is used to stop SSM server.
 
-   `bin/stop-ssm.sh`
+   `./bin/stop-ssm.sh`
 
    `--config <config-dir>` can be used to specify where the config directory is.
    `${SMART_HOME}/conf` is the default config directory if the config option is not used.
